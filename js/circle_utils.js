@@ -2,7 +2,7 @@ function addPieTins() {
   
   // uses globals map, countyCentroids, scaleCircles, activeCategory
   
-  map.selectAll('g.pie').selectAll('.tin')
+  map.selectAll('g.pie-scales').selectAll('.tin')
     .data(function(d) {
       return [d.properties];
     })
@@ -10,8 +10,6 @@ function addPieTins() {
     .append('circle')
     .classed('tin', true)
     .attr("id", function(d) { return "circle-"+d.GEOID; })
-    .attr("cx", 0)
-    .attr("cy", 0)
     .attr("r", 1);
     
   tinsAdded = true;
@@ -20,7 +18,7 @@ function addPieTins() {
   // since this function always gets called from updatePieTins, that should be fine
 }
 
-function updatePieTins(category, delay, duration) {
+function updatePieTins(category, delay) {
   
   // add the circles if needed
   if (!tinsAdded) {
@@ -29,13 +27,13 @@ function updatePieTins(category, delay, duration) {
 
   if(category === 'piechart') {
     d3.selectAll(".tin")
-      .transition().delay(delay).duration(duration)
+      .transition().delay(delay).duration(0)
       .style("fill", "transparent")
       .style("stroke", "lightgrey")
       .style("stroke-width", "0.01");
   } else {
     d3.selectAll(".tin")
-      .transition().delay(delay).duration(duration)
+      .transition().delay(delay).duration(0)
       .style("fill", categoryToColor(category))
       .style("stroke", "transparent"); // we should repoint this to use a lookup in styles.js
 
